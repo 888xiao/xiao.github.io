@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>中洲商城</title>
+    <style>
+        /* 整体页面和html元素样式 */
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* 导航栏样式 */
+    .navbar {
+            background-color: #e60000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            position: fixed;
+            top: 0;
+            width: 97%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+    .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 25px;
+            transition: color 0.3s ease;
+            font-size: 16px;
+        }
+
+    .navbar a:hover {
+            color: #ffdddd;
+            text-decoration: underline;
+        }
+
+    .navbar.search-bar {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 8px 10px;
+        }
+
+    .navbar.search-bar input[type="text"] {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+            width: 180px;
+            outline: none;
+            font-size: 14px;
+            transition: width 0.3s ease;
+        }
+
+    .navbar.search-bar input[type="text"]:focus {
+            width: 250px;
+        }
+
+    .navbar.search-bar input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+    .navbar.search-bar button {
+            background-color: rgba(204, 204, 204, 0.8);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+    .navbar.search-bar button:hover {
+            background-color: rgba(204, 204, 204, 1);
+        }
+
+    .navbar.user-center {
+            width: 35px;
+            height: 35px;
+            margin: 0 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+    .navbar.user-center:hover {
+            transform: rotate(360deg);
+        }
+
+    .navbar.language-select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+    .navbar.language-select:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 首页主体内容区域样式 */
+    .main-content {
+            padding-top: 80px;
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: calc(100vh - 80px - 50px);
+        }
+
+        /* 轮播图样式 */
+    .carousel {
+            width: 40%;
+            height: 400px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+    .carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            transition: opacity 0.5s ease;
+        }
+
+    .carousel img:first-child {
+            display: block;
+        }
+
+        /* 商品分类导航样式 */
+    .category-nav {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+    .category-nav a {
+            color: #e60000;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0 10px;
+        }
+
+    .category-nav a:hover {
+            background-color: #ffe6e6;
+            color: #cc0000;
+        }
+
+        /* 商品列表样式 */
+    .product-list {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+        }
+
+    .product-item {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+    .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+    .product-item img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+    .product-item h3 {
+            color: #e60000;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+    .product-item p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+    .product-item button {
+            background-color: #e60000;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+    .product-item button:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
+        }
+
+        /* 侧边栏样式 */
+    .sidebar {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+    .sidebar h3 {
+            color: #e60000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+    .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+    .sidebar li {
+            margin-bottom: 8px;
+        }
+
+    .sidebar a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+    .sidebar a:hover {
+            color: #e60000;
+        }
+
+        /* 版权信息样式 */
+    .footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #e60000;
+            color: white;
+            font-size: 12px;
+            width: 100%;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="首页.html" title="返回首页" data-text-key="同舟纪">同舟纪</a>
+        <a href="首页.html" title="访问首页" data-text-key="首页">首页</a>
+        <a href="论坛.html" title="访问论坛" data-text-key="论坛">论坛</a>
+        <a href="#" title="探索更多内容" data-text-key="探索">探索</a>
+        <a href="https://d1ca1oiw2.wasee.com/m/d1ca1oiw2" title="访问AI学术馆" data-text-key="AI学术馆">AI学术馆</a>
+        <a href="#" title="了解关于我们" data-text-key="关于我们">关于我们</a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="请输入搜索内容">
+            <button>搜索</button>
+        </div>
+        <a href="个人中心.html"><img src="../同舟纪/矢量图标/人头.png" alt="个人中心" width="35" class="user-center"></a>
+        <select class="language-select">
+            <option value="汉语">汉语</option>
+            <option value="朝鲜语">朝鲜语</option>
+        </select>
+    </nav>
+
+    <!-- 首页主体内容 -->
+    <div class="main-content">
+        <!-- 轮播图 -->
+        <div class="carousel">
+            <img src="图片存放处/图片/汉族.jpg" alt="轮播图1">
+            <img src="图片存放处/图片/东乡族.jpeg" alt="轮播图2">
+            <img src="图片存放处/图片/乌兹别克族.jpeg" alt="轮播图4">
+            <img src="图片存放处/图片/京族.jpg" alt="轮播图5">
+            <img src="图片存放处/图片/仡佬族.jpg" alt="轮播图6">
+            <img src="图片存放处/图片/仫佬族.jpg" alt="轮播图7">
+            <img src="图片存放处/图片/佤族.jpg" alt="轮播图8">
+            <img src="图片存放处/图片/俄罗斯族.jpg" alt="轮播图9">
+        </div>
+
+        <!-- 商品分类导航 -->
+        <div class="category-nav">
+            <a href="#" data-text-key="民族服饰">民族服饰</a>
+            <a href="#" data-text-key="特色工艺品">特色工艺品</a>
+            <a href="#" data-text-key="传统美食">传统美食</a>
+            <a href="#" data-text-key="生活用品">生活用品</a>
+            <a href="#" data-text-key="文化纪念品">文化纪念品</a>
+        </div>
+
+        <!-- 商品列表 -->
+        <div class="product-list">
+            <div class="product-item">
+                <img src="图片存放处/1/精美民族服饰/b26aa6b16f7357508fb9b874fd1ca69.jpg" alt="商品1">
+                <h3 data-text-key="商品1">精美民族服饰</h3>
+                <p>采用传统工艺制作，独具民族特色。</p>
+                <button data-text-key="加入购物车">
+					<a href="商品详情.html">加入购物车</a></button>
+            </div>
+            <div class="product-item">
+                <img src="图片存放处/1/特色手工艺品/1731040db68d7fe3f1742d642b14ea3.jpg" alt="商品2">
+                <h3 data-text-key="商品2">特色手工工艺品</h3>
+                <p>纯手工打造，具有极高的艺术价值。</p>
+                <button data-text-key="加入购物车">加入购物车</button>
+            </div>
+            <div class="product-item">
+                <img src="图片存放处/1/传统特色美食/3b12edbc950bd8e5feca1b61df463f5.jpg" alt="商品3">
+                <h3 data-text-key="商品3">传统特色美食</h3>
+                <p>地道风味，让人回味无穷。</p>
+                <button data-text-key="加入购物车">加入购物车</button>
+            </div>
+            <div class="product-item">
+                <img src="图片存放处/1/实用生活用品/531733bbe4d214847e4d187d9b9f761.jpg" alt="商品4">
+                <h3 data-text-key="商品4">实用生活用品</h3>
+                <p>品质优良，满足日常生活所需。</p>
+                <button data-text-key="加入购物车">加入购物车</button>
+            </div>
+            <div class="product-item">
+                <img src="图片存放处/1/文化纪念徽章/16cd177dca23ded32775a8fc8d42ad3.jpg" alt="商品5">
+                <h3 data-text-key="商品5">文化纪念徽章</h3>
+                <p>承载民族文化，极具纪念意义。</p>
+                <button data-text-key="加入购物车">加入购物车</button>
+            </div>
+            <div class="product-item">
+                <img src="图片存放处/1/华丽民族服饰套装/ad1381e94d169b87bda971334f86d0c.jpg" alt="商品6">
+                <h3 data-text-key="商品6">华丽民族服饰套装</h3>
+                <p>多种款式可选，展现独特魅力。</p>
+                <button data-text-key="加入购物车">加入购物车</button>
+            </div>
+            <div class="product-item">
+                <img src="图片存放处/1/精美木雕工艺品/3365b0df8d78eda1ed91bc8c7f77868.jpg" alt="商品7">
+                <h3 data-text-key="商品7">精美木雕工艺品</h3>
+                <p>雕刻细腻，艺术感十足。</p>
+                <button data-text-key="加入购物车">加入购物车</button>
+            </div>
+            <div class="product-item">
+                <img src="图片存放处/1/特色小吃礼盒/dbf60aba81b91b9c509e1a417cfcb8a.jpg" alt="商品8">
+                <h3 data-text-key="商品8">特色小吃礼盒</h3>
+                <p>多种美味组合，送礼佳品。</p>
+                <button data-text-key="加入购物车">加入购物车</button>
+            </div>
+            <div class="product-item">
+                <img src="图片存放处/1/舒适床上用品/1c0c91723ac4ddf2aa4f801afe75b8e.jpg" alt="商品9">
+                <h3 data-text-key="商品9">舒适床上用品</h3>
+                <p>柔软舒适，助您拥有好睡眠。</p>
+                <button data-text-key="加入购物车">加入购物车</button>
+            </div>
+        </div>
+
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <h3 data-text-key="热门推荐">热门推荐</h3>
+            <ul>
+                <li><a href="#" data-text-key="热门商品1">热门商品1</a></li>
+                <li><a href="#" data-text-key="热门商品2">热门商品2</a></li>
+                <li><a href="#" data-text-key="热门商品3">热门商品3</a></li>
+            </ul>
+            <h3 data-text-key="促销活动">促销活动</h3>
+            <ul>
+                <li><a href="#" data-text-key="满减优惠">满减优惠</a></li>
+                <li><a href="#" data-text-key="折扣专区">折扣专区</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- 版权信息 -->
+    <div class="footer" data-text-key="footer">
+        &copy; 2024 版权所有 - 中洲
+    </div>
+	<script>
+		var carousel = document.querySelector('.carousel');
+        var images = carousel.querySelectorAll('img');
+        var currentIndex = 0;
+
+        function changeImage() {
+            images[currentIndex].style.display = 'none';
+            currentIndex++;
+            if (currentIndex >= images.length) {
+                currentIndex = 0;
+            }
+            images[currentIndex].style.display = 'block';
+        }
+
+        setInterval(changeImage, 3000);
+		 // 定义不同语言的文本内容
+        const languages = {
+            "汉语": {
+                "中洲": "中洲",
+                "首页": "首页",
+                "论坛": "论坛",
+                "探索": "探索",
+                "AI学术馆": "AI学术馆",
+                "关于我们": "关于我们",
+                "搜索": "搜索",
+                "欢迎登录": "欢迎登录",
+                "服务条款": "服务条款",
+                "立即注册": "立即注册"
+            },
+            "朝鲜语": {
+                "中洲": "중주",
+                "首页": "메인 페이지",
+                "论坛": "포럼",
+                "探索": "탐색",
+                "AI学术馆": "AI 학술관",
+                "关于我们": "우리에 대해",
+                "搜索": "검색",
+                "欢迎登录": "로그인을 환영합니다",
+                "服务条款": "서비스 약관",
+                "立即注册": "즉시 등록"
+            }
+        };
+
+        // 获取语言选择下拉框元素
+        const languageSelect = document.querySelector('.language-select');
+        // 获取页面加载时存储的语言或默认设置为汉语
+        const storedLanguage = localStorage.getItem('selectedLanguage') || '汉语';
+        setLanguage(storedLanguage);
+
+        // 为语言选择下拉框添加change事件监听器
+        languageSelect.addEventListener('change', function () {
+            const selectedLanguage = this.value;
+            setLanguage(selectedLanguage);
+            localStorage.setItem('selectedLanguage', selectedLanguage);
+        });
+
+        // 定义设置语言的函数
+        function setLanguage(language) {
+            const navLinks = document.querySelectorAll('.navbar a[data-text-key]');
+            const h2Title = document.querySelector('h2[data-text-key]');
+            const termsLink = document.querySelector('.terms label a[data-text-key]');
+            const registerLink = document.querySelector('.register-link a[data-text-key]');
+
+            navLinks.forEach(link => {
+                const textKey = link.dataset.textKey;
+                link.textContent = languages[language][textKey];
+            });
+
+            if (h2Title) {
+                const textKey = h2Title.dataset.textKey;
+                h2Title.textContent = languages[language][textKey];
+            }
+
+            if (termsLink) {
+                const textKey = termsLink.dataset.textKey;
+                termsLink.textContent = languages[language][textKey];
+            }
+
+            if (registerLink) {
+                const textKey = registerLink.dataset.textKey;
+                registerLink.textContent = languages[language][textKey];
+            }
+        }
+
+    </script>
+	
+</body>
+
+</html>

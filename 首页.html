@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>首页</title>
+    <style>
+        /* 整体页面和html元素样式 */
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffcccc;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* 导航栏样式 */
+    .navbar {
+            background-color: #e60000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            position: fixed;
+            top: 0;
+            width: 97%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+    .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 25px;
+            transition: color 0.3s ease;
+        }
+
+    .navbar a:hover {
+            color: #ffdddd;
+            text-decoration: underline;
+        }
+
+    .navbar.search-bar {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 8px 10px;
+        }
+
+    .navbar.search-bar input[type="text"] {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+            width: 180px;
+            outline: none;
+            font-size: 14px;
+            transition: width 0.3s ease;
+        }
+
+    .navbar.search-bar input[type="text"]:focus {
+            width: 250px;
+        }
+
+    .navbar.search-bar input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+    .navbar.search-bar button {
+            background-color: rgba(204, 204, 204, 0.8);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+    .navbar.search-bar button:hover {
+            background-color: rgba(204, 204, 204, 1);
+        }
+
+    .navbar.user-center {
+            width: 35px;
+            height: 35px;
+            margin: 0 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+    .navbar.user-center:hover {
+            transform: rotate(360deg);
+        }
+
+    .navbar.language-select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+    .navbar.language-select:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 首页主体内容区域样式 */
+    .main-content {
+            padding-top: 80px; /* 为导航栏留出空间，避免内容被遮挡 */
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* 让子元素顶部对齐 */
+            min-height: calc(100vh - 80px - 50px); /* 计算主体内容最小高度，减去导航栏和版权栏高度 */
+        }
+
+        /* 轮播图样式 */
+    .carousel {
+            width: 60%;
+            height: 1000px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+    .carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+    .carousel img:first-child {
+            display: block;
+        }
+
+        /* 功能模块样式 */
+    .feature-section {
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+    .feature {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+    .feature:hover {
+            transform: translateY(-5px);
+        }
+
+    .feature img {
+            width: 120px;
+            height: 160px;
+        }
+
+    .feature h3 {
+            color: #e60000;
+            margin-bottom: 10px;
+        }
+
+    .feature p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* 版权信息样式 */
+    .footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #e60000;
+            color: white;
+            font-size: 12px;
+            width: 100%;
+            margin-top: auto; /* 自动将版权信息推到底部 */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="首页.html" title="返回首页" data-text-key="同舟纪">同舟纪</a>
+        <a href="首页.html" title="访问首页" data-text-key="首页">首页</a>
+        <a href="论坛.html" title="访问论坛" data-text-key="论坛">论坛</a>
+        <a href="#" title="探索更多内容" data-text-key="探索">探索</a>
+        <a href="https://d1ca1oiw2.wasee.com/m/d1ca1oiw2" title="访问AI学术馆" data-text-key="AI学术馆">AI学术馆</a>
+        <a href="#" title="了解关于我们" data-text-key="关于我们">关于我们</a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="请输入搜索内容">
+            <button>搜索</button>
+        </div>
+        <a href="个人中心.html"><img src="../同舟纪/矢量图标/人头.png" alt="个人中心" width="35" class="user-center"></a>
+        <select class="language-select">
+            <option value="汉语">汉语</option>
+            <option value="朝鲜语">朝鲜语</option>
+        </select>
+    </nav>
+
+    <!-- 首页主体内容 -->
+    <div class="main-content">
+        <!-- 功能模块 -->
+        <div class="feature-section">
+            <div class="feature">
+              <a href="中洲商城.html"><img src="图片存放处/矢量图标/购物车.png" alt="功能1图标"></a>
+              <h3 data-text-key="商城">商城</h3>
+                <p>各民族特色好物&nbsp;</p>
+            </div>
+            <div class="feature">
+                <img src="图片存放处/矢量图标/民族.png" alt="功能2图标">
+                <h3 data-text-key="民族资料">民族资料</h3>
+                <p>了解各民族文化差异，求同存异</p>
+            </div>
+            <div class="feature">
+                <img src="功能图标3.png" alt="功能3图标">
+                <h3 data-text-key="功能模块3">功能模块3</h3>
+                <p>简单介绍功能模块3的作用和优势等内容。</p>
+            </div>
+            <div class="feature">
+                <img src="功能图标4.png" alt="功能4图标">
+                <h3 data-text-key="功能模块4">功能模块4</h3>
+          </div>
+          <div class="feature">
+                <img src="功能图标4.png" alt="功能5图标">
+                <h3 data-text-key="功能模块5">功能模块5</h3>
+          </div>
+        </div>
+
+        <!-- 轮播图 -->
+        <div class="carousel">
+            <img src="图片存放处/图片/汉族.jpg" alt="轮播图1">
+            <img src="图片存放处/图片/东乡族.jpeg" alt="轮播图2">
+            <img src="图片存放处/图片/乌兹别克族.jpeg" alt="轮播图4">
+            <img src="图片存放处/图片/京族.jpg" alt="轮播图5">
+            <img src="图片存放处/图片/仡佬族.jpg" alt="轮播图6">
+            <img src="图片存放处/图片/仫佬族.jpg" alt="轮播图7">
+            <img src="图片存放处/图片/佤族.jpg" alt="轮播图8">
+            <img src="图片存放处/图片/俄罗斯族.jpg" alt="轮播图9">
+        </div>
+    </div>
+
+    <!-- 版权信息 -->
+    <div class="footer" data-text-key="footer">
+        &copy; 2024 版权所有 - 中洲
+    </div>
+
+    <script>
+        var languages = {
+            "汉语": {
+                "navLinks": {
+                    "首页": "首页",
+                    "论坛": "论坛",
+                    "探索": "探索",
+                    "AI学术馆": "AI学术馆",
+                    "关于我们": "关于我们",
+					"中洲":"中洲"
+                },
+                "features": {
+                    "商城": "商城",
+                    "民族资料": "民族资料",
+                    "功能模块3": "功能模块3",
+                    "功能模块4": "功能模块4",
+                    "功能模块5": "功能模块5"
+                },
+                "footer": "版权所有 - 中洲"
+            },
+            "朝鲜语": {
+                "navLinks": {
+                    "首页": "메인 페이지",
+                    "论坛": "포럼",
+                    "探索": "탐색",
+                    "AI学术馆": "AI 학술관",
+                    "关于我们": "우리에 대해",
+					"中洲":"가운데땅"
+                },
+                "features": {
+                    "商城": "쇼핑몰",
+                    "民族资料": "민족 자료",
+                    "功能模块3": "기능 모듈 3",
+                    "功能模块4": "기능 모듈 4",
+                    "功能模块5": "기능 모듈 5"
+                },
+                "footer": "저작권 © 2024 - 중주"
+            }
+        };
+
+        var languageSelect = document.querySelector('.language-select');
+        var storedLanguage = localStorage.getItem('selectedLanguage') || '汉语';
+        setLanguage(storedLanguage);
+
+        languageSelect.addEventListener('change', function () {
+            var selectedLanguage = this.value;
+            setLanguage(selectedLanguage);
+            localStorage.setItem('selectedLanguage', selectedLanguage);
+        });
+
+        function setLanguage(language) {
+            var navLinks = document.querySelectorAll('.navbar a[data-text-key]');
+            var featureTitles = document.querySelectorAll('.feature h3[data-text-key]');
+            var footerText = document.querySelector('.footer[data-text-key]');
+
+            navLinks.forEach(link => {
+                var textKey = link.dataset.textKey;
+                link.textContent = languages[language].navLinks[textKey];
+            });
+
+            featureTitles.forEach(title => {
+                var textKey = title.dataset.textKey;
+                title.textContent = languages[language].features[textKey];
+            });
+
+            footerText.textContent = languages[language].footer;
+        }
+
+        var carousel = document.querySelector('.carousel');
+        var images = carousel.querySelectorAll('img');
+        var currentIndex = 0;
+
+        function changeImage() {
+            images[currentIndex].style.display = 'none';
+            currentIndex++;
+            if (currentIndex >= images.length) {
+                currentIndex = 0;
+            }
+            images[currentIndex].style.display = 'block';
+        }
+
+        setInterval(changeImage, 3000);
+    </script>
+</body>
+
+</html>

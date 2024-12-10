@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>中洲商城 - 商品详情</title>
+    <style>
+        /* 整体页面和html元素样式 */
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* 导航栏样式 */
+      .navbar {
+            background-color: #e60000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            position: fixed;
+            top: 0;
+            width: 97%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+      .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 25px;
+            transition: color 0.3s ease;
+            font-size: 16px;
+        }
+
+      .navbar a:hover {
+            color: #ffdddd;
+            text-decoration: underline;
+        }
+
+      .navbar.search-bar {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 8px 10px;
+        }
+
+      .navbar.search-bar input[type="text"] {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+            width: 180px;
+            outline: none;
+            font-size: 14px;
+            transition: width 0.3s ease;
+        }
+
+      .navbar.search-bar input[type="text"]:focus {
+            width: 250px;
+        }
+
+      .navbar.search-bar input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+      .navbar.search-bar button {
+            background-color: rgba(204, 204, 204, 0.8);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+      .navbar.search-bar button:hover {
+            background-color: rgba(204, 204, 204, 1);
+        }
+
+      .navbar.user-center {
+            width: 35px;
+            height: 35px;
+            margin: 0 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+      .navbar.user-center:hover {
+            transform: rotate(360deg);
+        }
+
+      .navbar.language-select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+      .navbar.language-select:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 商品详情主体内容区域样式 */
+      .main-content {
+            padding-top: 80px;
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: calc(100vh - 80px - 50px);
+        }
+
+        /* 商品图片展示区域整体样式 */
+      .product-image-container {
+            width: 100%;
+            height: 500px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 单个商品图片样式 */
+      .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        /* 显示第一张图片 */
+      .product-image:first-child {
+            display: block;
+        }
+
+        /* 左右箭头样式 */
+      .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+      .arrow:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+      .arrow-left {
+            left: 10px;
+        }
+
+      .arrow-right {
+            right: 10px;
+        }
+
+        /* 商品基本信息样式 */
+      .product-basic-info {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+      .product-basic-info h2 {
+            color: #e60000;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+      .product-basic-info p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+      .product-basic-info.price {
+            font-size: 20px;
+            color: #e60000;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* 商品详情描述样式 */
+      .product-detail-description {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+      .product-detail-description h3 {
+            color: #e60000;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+      .product-detail-description p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        /* 购买操作区域样式 */
+      .purchase-area {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+      .purchase-area.quantity-select {
+            display: flex;
+            align-items: center;
+        }
+
+      .purchase-area.quantity-select input[type="number"] {
+            width: 50px;
+            height: 35px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+      .purchase-area.buy-now-button,
+      .purchase-area.add-to-cart-button {
+            background-color: #e60000;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 16px;
+        }
+
+      .purchase-area.buy-now-button:hover,
+      .purchase-area.add-to-cart-button:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
+        }
+
+        /* 侧边栏样式 */
+      .sidebar {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+      .sidebar h3 {
+            color: #e60000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+      .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+      .sidebar li {
+            margin-bottom: 8px;
+        }
+
+      .sidebar a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+      .sidebar a:hover {
+            color: #e60000;
+        }
+
+        /* 版权信息样式 */
+      .footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #e60000;
+            color: white;
+            font-size: 12px;
+            width: 100%;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="首页.html" title="返回首页" data-text-key="同舟纪">同舟纪</a>
+        <a href="首页.html" title="访问首页" data-text-key="首页">首页</a>
+        <a href="论坛.html" title="访问论坛" data-text-key="论坛">论坛</a>
+        <a href="#" title="探索更多内容" data-text-key="探索">探索</a>
+        <a href="https://d1ca1oiw2.wasee.com/m/d1ca1oiw2" title="访问AI学术馆" data-text-key="AI学术馆">AI学术馆</a>
+        <a href="#" title="了解关于我们" data-text-key="关于我们">关于我们</a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="请输入搜索内容">
+            <button>搜索</button>
+        </div>
+        <a href="个人中心.html"><img src="../同舟纪/矢量图标/人头.png" alt="个人中心" width="35" class="user-center"></a>
+        <select class="language-select">
+            <option value="汉语">汉语</option>
+            <option value="朝鲜语">朝鲜语</option>
+        </select>
+    </nav>
+
+    <!-- 商品详情主体内容 -->
+    <div class="main-content">
+        <!-- 商品图片展示 -->
+        <div class="product-image-container">
+            <button class="arrow arrow-left" onclick="prevImage()">&lt;</button>
+            <button class="arrow arrow-right" onclick="nextImage()">&gt;</button>
+            <img src="图片存放处/1/精美民族服饰/97347128ae751e1edc2f4aafa5a5023.jpg" alt="商品图片1" class="product-image">
+            <img src="图片存放处/1/精美民族服饰/b26aa6b16f7357508fb9b874fd1ca69.jpg" alt="商品图片2" class="product-image">
+            <img src="图片存放处/1/精美民族服饰/c6a73dee7e971b4edfa0210650c75fc.jpg" alt="商品图片3" class="product-image">
+            <!-- 可根据实际图片数量继续添加更多img标签 -->
+        </div>
+
+        <!-- 商品基本信息 -->
+        <div class="product-basic-info">
+            <h2 data-text-key="商品1">朝鲜民族传统服饰</h2>
+            <p>品牌：[枫彩]</p>
+            <p>货号：[FC-2024-01]</p>
+            <div class="price">价格：￥[325]元</div>
+            <p>这款民族服饰凝聚了民族文化的精髓，每一针每一线都饱含着工匠们的心血与传承，从精美的刺绣图案到独特的材质选择，都彰显出与众不同的韵味，无论是在民族节日还是特殊场合穿着，都能让您展现出独特的魅力，吸引众人目光。</p>
+        </div>
+
+        <!-- 商品详情描述 -->
+        <div class="product-detail-description">
+            <h3>商品详情</h3>
+            <p>这款枫彩朝鲜民族服饰，精心设计，将朝鲜传统服饰文化的精髓与现代时尚审美巧妙融合。从精致的刺绣到独特的版型，每一处细节都彰显着品质与格调。领口与袖口采用经典的朝鲜传统花纹刺绣，细腻的针脚勾勒出富有民族特色的图案，如象征吉祥的云纹、花卉等，展现出浓郁的朝鲜文化底蕴。
+			裙摆的设计灵感来源于传统朝鲜服饰的宽大裙摆造型，走起路来飘逸灵动，仿佛穿越回古老的朝鲜王朝。</p>
+            <p>此外，在尺寸方面提供了多种选择，能够满足不同身材顾客的需求，您可以根据我们提供的尺码表进行准确的选购。售后方面也有完善的保障，若有任何质量问题，可在规定时间内联系我们进行退换货处理等。</p>
+        </div>
+
+        <!-- 购买操作区域 -->
+        <div class="purchase-area">
+            <div class="quantity-select">
+                <label for="quantity">数量：</label>
+                <input type="number" id="quantity" min="1" value="1">
+            </div>
+            <button class="buy-now-button" data-text-key="立即购买">立即购买</button>
+            <button class="add-to-cart-button" data-text-key="加入购物车">加入购物车</button>
+        </div>
+
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <h3 data-text-key="热门推荐">热门推荐</h3>
+            <ul>
+                <li><a href="#" data-text-key="热门商品1">热门商品1</a></li>
+                <li><a href="#" data-text-key="热门商品2">热门商品2</a></li>
+                <li><a href="#" data-text-key="热门商品3">热门商品3</a></li>
+            </ul>
+            <h3 data-text-key="促销活动">促销活动</h3>
+            <ul>
+                <li><a href="#" data-text-key="满减优惠">满减优惠</a></li>
+                <li><a href="#" data-text-key="折扣专区">折扣专区</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- 版权信息 -->
+    <div class="footer" data-text-key="footer">
+        &copy; 2024 版权所有 - 中洲
+    </div>
+    <script>
+        // 获取所有商品图片元素
+        const images = document.querySelectorAll('.product-image');
+        let currentIndex = 0;
+
+        // 显示当前索引对应的图片
+        function showImage(index) {
+            images.forEach((image, i) => {
+                if (i === index) {
+                    image.style.display = 'block';
+                } else {
+                    image.style.display = 'none';
+                }
+            });
+        }
+
+        // 显示第一张图片（页面加载时调用）
+        function init() {
+            showImage(currentIndex);
+        }
+
+        // 上一张图片切换函数
+        function prevImage() {
+            currentIndex--;
+            if (currentIndex < 0) {
+                currentIndex = images.length - 1;
+            }
+            showImage(currentIndex);
+        }
+
+        // 下一张图片切换函数
+        function nextImage() {
+            currentIndex++;
+            if (currentIndex >= images.length) {
+                currentIndex = 0;
+            }
+            showImage(currentIndex);
+        }
+
+        // 页面加载完成后初始化图片显示
+        window.onload = init;
+    </script>
+</body>
+
+</html>

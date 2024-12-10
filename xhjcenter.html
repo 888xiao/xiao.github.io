@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>个人中心</title>
+    <style>
+        /* 整体页面和html元素样式 */
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5; /* 更改背景色为更柔和的灰色 */
+            color: #333;
+            /* 增加页面平滑滚动效果 */
+            scroll-behavior: smooth;
+        }
+
+        /* 导航栏样式 */
+    .navbar {
+            background-color: #FF0004; /* 修改导航栏背景色为哔哩哔哩主题色之一 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            position: fixed;
+            top: 0;
+            width: 97%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 添加导航栏阴影，使其更有层次感 */
+            z-index: 100; /* 确保导航栏在其他元素之上 */
+        }
+
+    .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500; /* 加粗导航栏文字，使其更醒目 */
+            margin-right: 25px;
+            transition: color 0.3s ease; /* 添加过渡效果，鼠标悬停时文字颜色变化更平滑 */
+        }
+
+    .navbar a:hover {
+            color: #f5f5f5; /* 鼠标悬停时文字颜色改变，与背景色形成对比 */
+            text-decoration: underline;
+        }
+
+    .navbar.search-bar {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2); /* 搜索框区域添加半透明背景 */
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+    .navbar.search-bar input[type="text"] {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: transparent; /* 输入框背景透明，与整体搜索框融合 */
+            color: white; /* 输入框文字颜色为白色，与背景对比明显 */
+            width: 150px; /* 适当设置输入框宽度 */
+            outline: none; /* 去除输入框默认聚焦边框 */
+            font-size: 14px;
+        }
+
+    .navbar.search-bar input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.8); /* 占位符文字颜色稍浅 */
+        }
+
+    .navbar.search-bar button {
+            background-color: rgba(204, 204, 204, 0.8); /* 搜索按钮背景色稍透明 */
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            color: white; /* 按钮文字颜色为白色 */
+            transition: background-color 0.3s ease; /* 按钮背景色过渡效果 */
+        }
+
+    .navbar.search-bar button:hover {
+            background-color: rgba(204, 204, 204, 1); /* 鼠标悬停时按钮背景色变实 */
+        }
+
+    .navbar.user-center {
+            width: 35px;
+            height: 35px;
+            margin: 0 15px;
+            cursor: pointer;
+            border-radius: 50%; /* 将个人中心图标设置为圆形 */
+            transition: transform 0.3s ease; /* 添加旋转过渡效果 */
+        }
+
+    .navbar.user-center:hover {
+            transform: rotate(360deg); /* 鼠标悬停时旋转一圈 */
+        }
+
+    .navbar.language-select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2); /* 语言选择下拉框背景半透明 */
+            color: white; /* 文字颜色为白色 */
+            cursor: pointer;
+            font-size: 14px;
+            outline: none; /* 去除默认聚焦边框 */
+        }
+
+        /* 个人中心主体内容容器样式 */
+    .personal-center-container {
+            margin-top: 80px; /* 为导航栏留出空间 */
+            padding: 20px;
+        }
+
+        /* 头像及基本信息区域样式 */
+    .avatar-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+    .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #ccc; /* 可以移除原来的背景色设置，或者保留作为图片加载失败等情况的备用背景色 */
+            background-image: url('图片存放处/图片/仫佬族.jpg'); /* 设置背景图片路径和文件名，同上述要求根据实际修改 */
+            background-size: cover; /* 让背景图片自适应填充整个元素，保持圆形效果 */
+            background-position: center; /* 图片在元素内居中显示 */
+            margin-right: 20px;
+        }
+
+    .user-info h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #FF0000;
+        }
+
+    .user-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* 动态列表样式 */
+    .dynamic-list {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+    .dynamic-item {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+    .dynamic-item:last-child {
+            border-bottom: none;
+        }
+
+    .dynamic-item h4 {
+            margin: 0 0 5px;
+            font-size: 16px;
+            color: #FF0004;
+        }
+
+    .dynamic-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* 设置区域样式 */
+    .settings-section {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+    .settings-section h3 {
+            margin: 0 0 15px;
+            font-size: 18px;
+            color: #FF0004;
+        }
+
+      .settings-option {
+            margin-bottom: 10px;
+        }
+
+      .settings-option label {
+            margin-right: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+      .settings-option input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="首页.html" data-text-key="同舟纪" title="返回首页">同舟纪</a>
+        <a href="首页.html" data-text-key="首页" title="访问首页">首页</a>
+        <a href="论坛.html" data-text-key="论坛" title="访问论坛">论坛</a>
+        <a href="#" data-text-key="探索" title="探索更多内容">探索</a>
+        <a href="https://d1ca1oiw2.wasee.com/m/d1ca1oiw2" data-text-key="AI学术馆" title="访问AI学术馆">AI学术馆</a>
+        <a href="#" data-text-key="关于我们" title="了解关于我们">关于我们</a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="请输入搜索内容">
+            <a data-text-key="搜索" title="搜索"><button>搜索</button></a>
+        </div>
+        <a href="xhjcenter.html"><img src="../同舟纪/矢量图标/人头.png" alt="个人中心" width="35" class="user-center"></a>
+        <select class="language-select">
+            <option value="汉语">汉语</option>
+            <option value="朝鲜语">朝鲜语</option>
+        </select>
+    </nav>
+
+    <!-- 个人中心主体内容容器 -->
+    <div class="personal-center-container">
+        <!-- 头像及基本信息区域 -->
+        <div class="avatar-info">
+            <div class="avatar"></div>
+            <div class="user-info">
+                <h3 data-text-key="徐慧君">徐慧君</h3>
+                <p data-text-key="等级：LV5">等级：LV5</p>
+                <p data-text-key="注册时间：2024-01-01">注册时间：2024-01-01</p>
+            </div>
+        </div>
+
+        <!-- 动态列表 -->
+        <div class="dynamic-list">
+            <div class="dynamic-item">
+                <h4 data-text-key="发布了新动态">发布了新动态</h4>
+                <p data-text-key="今天学习了很多有趣的知识，分享给大家~">今天学习了很多有趣的知识，分享给大家~</p>
+            </div>
+            <div class="dynamic-item">
+                <h4 data-text-key="点赞了一篇文章">点赞了一篇文章</h4>
+                <p data-text-key="那篇关于AI应用的文章真的很不错呀！">那篇关于AI应用的文章真的很不错呀！</p>
+            </div>
+        </div>
+
+        <!-- 设置区域 -->
+        <div class="settings-section">
+            <h3 data-text-key="个人设置">个人设置</h3>
+            <div class="settings-option">
+                <input type="checkbox" id="notify-email" checked>
+                <label for="notify-email" data-text-key="接收邮件通知">接收邮件通知</label>
+            </div>
+            <div class="settings-option">
+                <input type="checkbox" id="dark-mode">
+				<label for="dark-mode" data-text-key="开启暗色模式">开启暗色模式</label>
+            </div>
+            <div class="settings-option">
+                <input type="checkbox" id="auto-play">
+				<label for="auto-play" data-text-key="自动播放视频">自动播放视频</label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 定义不同语言的文本内容
+        const languages = {
+            "汉语": {
+                "同舟纪": "同舟纪",
+                "首页": "首页",
+                "论坛": "论坛",
+                "探索": "探索",
+                "AI学术馆": "AI学术馆",
+                "关于我们": "关于我们",
+                "徐慧君": "徐慧君",
+                "等级：LV5": "等级：LV5",
+                "注册时间：2024-01-01": "注册时间：2024-01-01",
+                "发布了新动态": "发布了新动态",
+                "点赞了一篇文章": "点赞了一篇文章",
+                "个人设置": "个人设置",
+                "接收邮件通知": "接收邮件通知",
+                "开启暗色模式": "开启暗色模式",
+                "自动播放视频": "自动播放视频",
+                "搜索": "搜索"
+            },
+            "朝鲜语": {
+                "同舟纪": "동주기",
+                "首页": "메인 페이지",
+                "论坛": "포럼",
+                "探索": "탐색",
+                "AI学术馆": "AI 학술관",
+                "关于我们": "우리에 대해",
+                "徐慧君": "서 혜군",
+                "等级：LV5": "레벨: LV5",
+                "注册时间：2024-01-01": "등록일: 2024-01-01",
+                "发布了新动态": "새로운 동적이 게시되었습니다.",
+                "点赞了一篇文章": "한 기사에 좋아요를 눌렀습니다.",
+                "个人设置": "개인 설정",
+                "接收邮件通知": "이메일 알림을 받습니다.",
+                "开启暗色模式": "다크 모드를 켭니다.",
+                "自动播放视频": "비디오를 자동 재생합니다.",
+                "搜索": "검색"
+            }
+        };
+
+        // 获取语言选择下拉框元素
+        const languageSelect = document.querySelector('.language-select');
+        // 获取页面加载时存储的语言或默认设置为汉语
+        const storedLanguage = localStorage.getItem('selectedLanguage') || '汉语';
+        setLanguage(storedLanguage);
+
+        // 为语言选择下拉框添加change事件监听器
+        languageSelect.addEventListener('change', function () {
+            const selectedLanguage = this.value;
+            setLanguage(selectedLanguage);
+            localStorage.setItem('selectedLanguage', selectedLanguage);
+        });
+
+        // 定义设置语言的函数
+        function setLanguage(language) {
+            const navLinks = document.querySelectorAll('.navbar a[data-text-key]');
+            const h3Elements = document.querySelectorAll('h3[data-text-key]');
+            const pElements = document.querySelectorAll('p[data-text-key]');
+            const h4Elements = document.querySelectorAll('h4[data-text-key]');
+            const labelElements = document.querySelectorAll('label[data-text-key]');
+
+            navLinks.forEach(link => {
+                const textKey = link.dataset.textKey;
+                link.textContent = languages[language][textKey];
+            });
+
+            h3Elements.forEach(element => {
+                const textKey = element.dataset.textKey;
+                element.textContent = languages[language][textKey];
+            });
+
+            pElements.forEach(element => {
+                const textKey = element.dataset.textKey;
+                element.textContent = languages[language][textKey];
+            });
+
+            h4Elements.forEach(element => {
+                const textKey = element.dataset.textKey;
+                element.textContent = languages[language][textKey];
+            });
+
+            labelElements.forEach(element => {
+                const textKey = element.dataset.textKey;
+                element.textContent = languages[language][textKey];
+            });
+        }
+    </script>
+</body>
+
+</html>

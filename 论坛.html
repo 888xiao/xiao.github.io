@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>论坛界面</title>
+    <style>
+        /* 整体页面和html元素样式 */
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffcccc;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* 导航栏样式 */
+     .navbar {
+            background-color: #e60000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            position: fixed;
+            top: 0;
+            width: 97%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+     .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 25px;
+            transition: color 0.3s ease;
+        }
+
+     .navbar a:hover {
+            color: #ffdddd;
+            text-decoration: underline;
+        }
+
+     .navbar.search-bar {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 8px 10px;
+        }
+
+     .navbar.search-bar input[type="text"] {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+            width: 180px;
+            outline: none;
+            font-size: 14px;
+            transition: width 0.3s ease;
+        }
+
+     .navbar.search-bar input[type="text"]:focus {
+            width: 250px;
+        }
+
+     .navbar.search-bar input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+     .navbar.search-bar button {
+            background-color: rgba(204, 204, 204, 0.8);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+     .navbar.search-bar button:hover {
+            background-color: rgba(204, 204, 204, 1);
+        }
+
+     .navbar.user-center {
+            width: 35px;
+            height: 35px;
+            margin: 0 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+     .navbar.user-center:hover {
+            transform: rotate(360deg);
+        }
+
+     .navbar.language-select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+     .navbar.language-select:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 论坛主体内容区域样式 */
+     .main-content {
+            padding-top: 80px;
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: calc(100vh - 80px - 50px);
+        }
+
+        /* 帖子列表样式 */
+     .post-list {
+            width: 70%;
+        }
+
+     .post {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+     .post:hover {
+            transform: translateY(-5px);
+        }
+
+     .post h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+     .post p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+		
+	 .post-video-container {
+		 width: 100%;
+    	 height: auto;
+    	 margin-bottom: 100px;
+		}
+
+     .post-author {
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        /* 帖子互动区域样式（点赞、收藏、评论、分享等，这里简单模拟样式） */
+     .post-interaction {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+     .post-interaction i {
+            margin-right: 15px;
+            cursor: pointer;
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+     .post-interaction i:hover {
+            color: #e60000;
+        }
+
+        /* 侧边栏样式 */
+     .sidebar {
+            width: 26%;
+        }
+
+     .sidebar-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 7px 6px rgba(0, 0, 0, 0.2);
+            padding: 56.5px;
+            margin-bottom: 20px;
+        }
+
+     .sidebar-section h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+     .sidebar-section p {
+            font-size: 17px;
+            color: #666;
+        }
+
+        /* 板块分类列表样式 */
+     .board-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+		 	font-size: 18px;
+        }
+
+     .board-list li {
+            margin-bottom: 13px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+     .board-list li:hover {
+            color: #e60000;
+        }
+
+        /* 热门帖子列表样式 */
+     .hot-post-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+     .hot-post-list li {
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+     .hot-post-list li:hover {
+            color: #e60000;
+        }
+
+        /* 版权信息样式 */
+     .footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #e60000;
+            color: white;
+            font-size: 12px;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        /* 发帖按钮样式 */
+     .post-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 17px;
+            position: fixed;
+            bottom: 20px;
+            right: 150px;
+            z-index: 200;
+        }
+
+        /* 发帖弹出层样式 */
+     .post-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 300;
+        }
+
+     .post-popup-content {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 40%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+     .post-popup h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+     .post-popup label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+     .post-popup input[type="text"],
+     .post-popup textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+     .post-popup input[type="file"] {
+            margin-bottom: 15px;
+        }
+
+     .post-popup select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+     .post-popup button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="首页.html" title="返回首页" data-text-key="同舟纪">同舟纪</a>
+        <a href="首页.html" title="访问首页" data-text-key="首页">首页</a>
+        <a href="论坛.html" title="访问论坛" data-text-key="论坛">论坛</a>
+        <a href="#" title="探索更多内容" data-text-key="探索">探索</a>
+        <a href="https://d1ca1oiw2.wasee.com/m/d1ca1oiw2" title="访问AI学术馆" data-text-key="AI学术馆">AI学术馆</a>
+        <a href="#" title="了解关于我们" data-text-key="关于我们">关于我们</a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="请输入搜索内容">
+            <button>搜索</button>
+        </div>
+        <a href="个人中心.html"><img src="../同舟纪/矢量图标/人头.png" alt="个人中心" width="35" class="user-center"></a>
+        <select class="language-select">
+            <option value="汉语">汉语</option>
+            <option value="朝鲜语">朝鲜语</option>
+        </select>
+    </nav>
+
+    <!-- 论坛主体内容 -->
+    <div class="main-content">
+        <!-- 帖子列表 -->
+        <div class="post-list">
+            <div class="post" data-post-id="1">
+                <h3>热门话题1--中华民族共同体</h3>
+                <p>《中华民族共同体概论》大讲堂 听主讲人中央民族大学王凯歌讲述 中国共产党对马克思主义民族理论中国化的成功探索 道中华大讲堂。</p>
+                <p class="post-author">作者：道中华</p>
+				<!-- 新增视频播放容器 -->
+    			<div class="post-video-container">
+				 <video src="视频/20241205_195422.mp4" controls width="640" height="360"></video></div>
+                <!-- 帖子互动区域 -->
+                <div class="post-interaction">
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>点赞
+                    <i class="fa fa-star" aria-hidden="true"></i>收藏
+                    <i class="fa fa-comment" aria-hidden="true"></i>评论
+                    <i class="fa fa-share" aria-hidden="true"></i>分享
+                </div>
+            </div>
+            <div class="post" data-post-id="2">
+                <h3>热门话题2--春节申遗成功</h3>
+                <p>12月4日，“春节——中国人庆祝传统新年的社会实践”，被列入联合国教科文组织人类非物质文化遗产代表作名录。春节 作为典型的文化符号，是 铸牢中华民族共同体意识的重要载体 时空道中华</p>
+                <p class="post-author">作者：道中华</p>
+				<div class="post-video-container">
+				 <video src="视频/春节.mp4" controls width="640" height="360"></video></div>
+                <!-- 帖子互动区域 -->
+                <div class="post-interaction">
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>点赞
+                    <i class="fa fa-star" aria-hidden="true"></i>收藏
+                    <i class="fa fa-comment" aria-hidden="true"></i>评论
+                    <i class="fa fa-share" aria-hidden="true"></i>分享
+                </div>
+            </div>
+            <div class="post" data-post-id="3">
+                <h3>热门话题3--技术与文物的碰撞</h3>
+                <p>当AI遇上文物：起猛了！居然看到来自北魏的“好闺蜜”手牵手在跳舞「文物：双人牵手女俑」AI道中华</p>
+                <p class="post-author">作者：道中华</p>
+				<div class="post-video-container">
+				 <video src="视频/AI.mp4" controls width="640" height="360"></video></div>
+                <!-- 帖子互动区域 -->
+                <div class="post-interaction">
+                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>点赞
+                    <i class="fa fa-star" aria-hidden="true"></i>收藏
+                    <i class="fa fa-comment" aria-hidden="true"></i>评论
+                    <i class="fa fa-share" aria-hidden="true"></i>分享
+                </div>
+            </div>
+        </div>
+
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h4 style="font-size: 24px"><strong>板块分类</strong></h4>
+                <ul class="board-list">
+                  <li>生活闲聊</li>
+                    <li>技术交流</li>
+                    <li>娱乐八卦</li>
+                    <li>学习分享</li>
+                </ul>
+          </div>
+            <div class="sidebar-section">
+                <h4>热门帖子</h4>
+                <ul class="hot-post-list">
+                    <li>热门话题1</li>
+                    <li>热门话题2</li>
+                    <li>热门话题3</li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <h4>我的消息</h4>
+                <p>这里可以显示一些未读消息、系统通知等示例内容（实际需对接消息系统）。</p>
+            </div>
+            <div class="sidebar-section">
+                <h4>最新活动</h4>
+                <p>介绍论坛近期要举办的一些活动信息，比如线上讲座、话题征集活动等。</p>
+            </div>
+			 <div class="sidebar-section">
+                <h4>最新活动</h4>
+                <p>介绍论坛近期要举办的一些活动信息，比如线上讲座、话题征集活动等。</p>
+            </div>
+			 <div class="sidebar-section">
+                <h4>最新活动</h4>
+                <p>介绍论坛近期要举办的一些活动信息，比如线上讲座、话题征集活动等。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发帖按钮 -->
+    <button class="post-button" id="postButton">我要发帖</button>
+
+    <!-- 发帖弹出层 -->
+    <div class="post-popup" id="postPopup">
+        <div class="post-popup-content">
+            <h3>发表新帖子</h3>
+            <label for="title">标题：</label>
+            <input type="text" id="title" required>
+            <label for="content">内容：</label>
+            <textarea id="content" rows="5" required></textarea>
+            <label for="mediaType">帖子类型：</label>
+            <select id="mediaType">
+                <option value="text">纯文字</option>
+                <option value="image">图文</option>
+                <option value="video">视频</option>
+            </select>
+            <label for="mediaFile">上传文件（根据类型选择图片或视频）：</label>
+            <input type="file" id="mediaFile">
+            <button type="submit" id="submitButton">发表</button>
+            <button type="button" id="cancelButton">取消</button>
+        </div>
+    </div>
+
+    <!-- 版权信息 -->
+    <div class="footer" data-text-key="footer">
+        &copy; 2024 版权所有 - 中洲
+    </div>
+	<script>
+	 // 定义不同语言的文本内容
+        const languages = {
+            "汉语": {
+                "中洲": "中洲",
+                "首页": "首页",
+                "论坛": "论坛",
+                "探索": "探索",
+                "AI学术馆": "AI学术馆",
+                "关于我们": "关于我们",
+                "搜索": "搜索",
+                "欢迎登录": "欢迎登录",
+                "服务条款": "服务条款",
+                "立即注册": "立即注册"
+            },
+            "朝鲜语": {
+                "中洲": "중주",
+                "首页": "메인 페이지",
+                "论坛": "포럼",
+                "探索": "탐색",
+                "AI学术馆": "AI 학술관",
+                "关于我们": "우리에 대해",
+                "搜索": "검색",
+                "欢迎登录": "로그인을 환영합니다",
+                "服务条款": "서비스 약관",
+                "立即注册": "즉시 등록"
+            }
+        };
+
+        // 获取语言选择下拉框元素
+        const languageSelect = document.querySelector('.language-select');
+        // 获取页面加载时存储的语言或默认设置为汉语
+        const storedLanguage = localStorage.getItem('selectedLanguage') || '汉语';
+        setLanguage(storedLanguage);
+
+        // 为语言选择下拉框添加change事件监听器
+        languageSelect.addEventListener('change', function () {
+            const selectedLanguage = this.value;
+            setLanguage(selectedLanguage);
+            localStorage.setItem('selectedLanguage', selectedLanguage);
+        });
+
+        // 定义设置语言的函数
+        function setLanguage(language) {
+            const navLinks = document.querySelectorAll('.navbar a[data-text-key]');
+            const h2Title = document.querySelector('h2[data-text-key]');
+            const termsLink = document.querySelector('.terms label a[data-text-key]');
+            const registerLink = document.querySelector('.register-link a[data-text-key]');
+
+            navLinks.forEach(link => {
+                const textKey = link.dataset.textKey;
+                link.textContent = languages[language][textKey];
+            });
+
+            if (h2Title) {
+                const textKey = h2Title.dataset.textKey;
+                h2Title.textContent = languages[language][textKey];
+            }
+
+            if (termsLink) {
+                const textKey = termsLink.dataset.textKey;
+                termsLink.textContent = languages[language][textKey];
+            }
+
+            if (registerLink) {
+                const textKey = registerLink.dataset.textKey;
+                registerLink.textContent = languages[language][textKey];
+            }
+        }
+    </script>
+</body>
+
+</html>
